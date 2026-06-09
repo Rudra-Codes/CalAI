@@ -11,7 +11,7 @@ except Exception:
 setup(
     name='food-volume-estimation',
     description='Estimate food volume from input image.',
-    install_requires=install_reqs,
+    # install_requires=install_reqs beauce of render deployment issue packaged older version conflict
     python_requires='>=3.6',
     keywords='food volume estimation tensorflow keras',
     packages=find_packages()
