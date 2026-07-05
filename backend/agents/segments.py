@@ -3,9 +3,10 @@ import httpx
 # from pathlib import Path
 
 class SegmentsAgent:
-    def __init__(self, httpx_client, llm_client):
+    def __init__(self, httpx_client, llm_client, volume_estimator_endpoint = 'http://192.168.1.191:5000/predict'):
         self.httpx_client = httpx_client
         self.llm_client = llm_client
+        self.volume_estimator_api = volume_estimator_endpoint
         self.prompt = """CRITICAL: This image shows a Food Item. Focus on main food item and ignore rest. You must identify main ingredient in Food Item.
 CONTEXT:
 - Image of Food Item
@@ -63,7 +64,7 @@ Uncertainty: "Cannot tell if this is a fried pakora (high cal) or a steamed idli
 Resulting JSON field: `"most_important_question": "Is this item fried or steamed?"`
 
 Respond ONLY with the JSON object."""
-    async def call_volume_estimation_api(self, image, format='base_64', plate_diameter = 0.3, api_url='http://192.168.1.191:5000/predict'):
+    async def call_volume_estimation_api(self, image, format='base_64', plate_diameter = 0.3):
         print(f"Calling volume estimation API for image.")
         try:
             if format == 'base_64':
@@ -71,11 +72,11 @@ Respond ONLY with the JSON object."""
                     'img': image,
                     'plate_diameter':plate_diameter or 0.3
                 }
-                response = await self.httpx_client.post(api_url, json=payload)
+                response = await self.httpx_client.post(self.volume_estimator_api, json=payload)
             else:
                 files = {'img': image}
                 data = {'format': format, 'plate_diameter': plate_diameter}
-                response = await self.httpx_client.post(api_url, files=files, data=data)
+                response = await self.httpx_client.post(self.volume_estimator_api, files=files, data=data)
             response.raise_for_status()
             return response.json()
             

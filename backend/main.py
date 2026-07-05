@@ -34,7 +34,7 @@ async def lifespan(app: FastAPI):
     app.state.http_client = httpx.AsyncClient(timeout=300.0)
 
     app.state.ConversationalAgent = ConversationalAgent(app.state.llm_client)
-    app.state.SegmentationAgent = SegmentsAgent(app.state.http_client, app.state.llm_client)
+    app.state.SegmentationAgent = SegmentsAgent(app.state.http_client, app.state.llm_client, os.getenv("VOLUME_ESTIMATOR_ENDPOINT", 'http://192.168.1.191:5000/predict'))
     app.state.DialogueAgent = DialogueAgent(app.state.llm_client)
     app.state.NutritionAgent = NutritionAgent(app.state.tavily_client, app.state.llm_client)
     print("HTTP client opened.")

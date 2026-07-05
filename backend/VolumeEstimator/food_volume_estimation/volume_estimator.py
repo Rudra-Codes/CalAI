@@ -9,8 +9,8 @@ import base64
 from keras.models import Model, model_from_json
 import keras.backend as K
 # from fuzzywuzzy import fuzz, process 
-from PIL import Image
-import io
+# from PIL import Image
+# import io
 from food_volume_estimation.depth_estimation.custom_modules import *
 from food_volume_estimation.depth_estimation.project import *
 from food_volume_estimation.food_segmentation.food_segmentator import FoodSegmentator
@@ -195,8 +195,8 @@ class VolumeEstimator():
             else:
                 cropped_img = None
                 
-            seg_img = Image.open(io.BytesIO(base64.b64decode(cropped_img)))
-            seg_img.show()
+            # seg_img = Image.open(io.BytesIO(base64.b64decode(cropped_img)))
+            # seg_img.show()
 
             object_depth = object_mask_2d * depth
             # Get object points by filtering non-zero depth pixels

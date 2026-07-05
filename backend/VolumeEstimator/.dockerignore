@@ -1,0 +1,8 @@
+build
+dist
+food_volume_estimation.egg-info
+load_test*
+test*
+deploy.py
+__pycache__
+food_volume_estimation/weights/

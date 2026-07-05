@@ -46,3 +46,4 @@ architecture.json
 *.json
 test.py
 README.md
+__pycache__
